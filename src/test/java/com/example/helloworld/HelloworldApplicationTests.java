@@ -18,6 +18,7 @@ class HelloworldApplicationTests {
 		HelloWorldController controller = new HelloWorldController();
 		String greeting = controller.helloWorld();
 
-		assertThat(greeting).isEqualTo("Hello World. I love bacon!");
+		assertThat(greeting).contains("<h1>Hello World. I love bacon!</h1>");
+        assertThat(greeting).contains("src=\"/images/grogu-bacon.png\"");
 	}
 }

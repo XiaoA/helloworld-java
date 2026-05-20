@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -109,5 +110,17 @@ public class Task {
         this.status = status;
         this.created = created;
         this.updated = updated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

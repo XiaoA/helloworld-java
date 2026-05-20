@@ -5,5 +5,5 @@ import com.example.helloworld.domain.entity.Task;
 
 public interface TaskService {
 
-    Task createTask(CreateTaskRequest request);
+  Task createTask(CreateTaskRequest request);
 }

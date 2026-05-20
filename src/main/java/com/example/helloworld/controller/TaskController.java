@@ -9,10 +9,7 @@ import com.example.helloworld.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api/v1/tasks")
@@ -37,3 +34,6 @@ public class TaskController {
 		return new ResponseEntity<>(createdTaskDto, HttpStatus.CREATED);
 	}
 }
+
+@GetMapping
+public ResponseEntity<TaskDto> getTaskById(@PathVariable Long id) {}

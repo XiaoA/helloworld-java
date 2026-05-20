@@ -90,6 +90,19 @@ public class Task {
         return created;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dueDate=" + dueDate +
+                ", status=" + status +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
+    }
+
     public void setCreated(Instant created) {
         this.created = created;
     }

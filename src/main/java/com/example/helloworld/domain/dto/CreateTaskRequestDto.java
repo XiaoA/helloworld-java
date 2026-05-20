@@ -22,6 +22,6 @@ public record CreateTaskRequestDto(
 ) {
 
 	private static final String ERROR_MESSAGE_TITLE_LENGTH = "Title length must be between 1 and 255 characters";
-	private static final String ERROR_MESSAGE_DESCRIPTION_LENGTH = "Title length must be between 1 and 1000 characters";
+	private static final String ERROR_MESSAGE_DESCRIPTION_LENGTH = "Description length must be between 1 and 1000 characters";
 	private static final String ERROR_MESSAGE_DUE_DATE_FUTURE = "Due date must be in the future";
 }

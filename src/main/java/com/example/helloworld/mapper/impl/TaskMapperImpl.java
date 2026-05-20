@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class TaskMapperImpl implements TaskMapper {
 
 	@Override
-	public CreateTaskRequest fromDTO(CreateTaskRequestDto dto) {
+	public CreateTaskRequest fromDto(CreateTaskRequestDto dto) {
 		return new CreateTaskRequest(
 			dto.title(),
 			dto.description(),
@@ -20,7 +20,7 @@ public class TaskMapperImpl implements TaskMapper {
 	}
 
 	@Override
-	public TaskDto toDTO(Task task) {
+	public TaskDto toDto(Task task) {
 		return new TaskDto(
 			task.getId(),
 			task.getTitle(),

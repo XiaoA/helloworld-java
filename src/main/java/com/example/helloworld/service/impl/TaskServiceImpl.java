@@ -10,8 +10,13 @@ import com.example.helloworld.exception.TaskNotFoundException;
 import com.example.helloworld.repository.TaskRepository;
 import com.example.helloworld.repository.UserAccountRepository;
 import com.example.helloworld.service.TaskService;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.Instant;
 import java.util.List;
@@ -66,6 +71,7 @@ public class TaskServiceImpl implements TaskService {
 		return taskRepository.save(task);
 	}
 
+	@Transactional
 	@Override
 	public void deleteTask(UUID taskId) {
 		taskRepository.deleteById(taskId);

@@ -1,6 +1,7 @@
 package com.example.helloworld;
 
 import com.example.helloworld.controller.HelloWorldController;
+import com.example.helloworld.domain.dto.HelloWorldResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,11 +16,10 @@ class HelloworldApplicationTests {
 
 	@Test
 	void testDisplayHelloWorld() {
-
 		HelloWorldController controller = new HelloWorldController();
-		String greeting = controller.helloWorld();
+		HelloWorldResponse greeting = controller.helloWorld();
 
-		assertThat(greeting).contains("<h1>Hello World. I love bacon!</h1>");
-		assertThat(greeting).contains("src=\"/images/grogu-bacon.png\"");
+		assertThat(greeting).isNotNull();
+		assertThat(greeting.message()).isEqualTo("Hello from Spring Boot!");
 	}
 }

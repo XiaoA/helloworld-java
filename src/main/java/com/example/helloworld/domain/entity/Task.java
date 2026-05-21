@@ -111,6 +111,10 @@ public class Task {
 		this.updated = updated;
 	}
 
+	public UserAccount getUserAccount() {
+		return userAccount;
+	}
+
 	public Task(UUID id, String title, String description, LocalDate dueDate, TaskStatus status, Instant created, Instant updated) {
 		this.id = id;
 		this.title = title;

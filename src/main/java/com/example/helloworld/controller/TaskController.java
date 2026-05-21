@@ -1,8 +1,10 @@
 package com.example.helloworld.controller;
 
 import com.example.helloworld.domain.CreateTaskRequest;
+import com.example.helloworld.domain.UpdateTaskRequest;
 import com.example.helloworld.domain.dto.CreateTaskRequestDto;
 import com.example.helloworld.domain.dto.TaskDto;
+import com.example.helloworld.domain.dto.UpdateTaskRequestDto;
 import com.example.helloworld.domain.entity.Task;
 import com.example.helloworld.mapper.TaskMapper;
 import com.example.helloworld.service.TaskService;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/tasks")
@@ -41,6 +44,17 @@ public class TaskController {
 		List<Task> tasks = taskService.listTasks();
 		List<TaskDto> taskDtos = tasks.stream().map(taskMapper::toDto).toList();
 		return ResponseEntity.ok(taskDtos);
+	}
+
+	@PutMapping(path="/{taskId}")
+	public ResponseEntity<TaskDto> updateTask(
+		@PathVariable UUID taskId,
+		@Valid @RequestBody UpdateTaskRequestDto updateTaskRequestDto
+	) {
+		UpdateTaskRequest updateTaskRequest = taskMapper.fromDto(updateTaskRequestDto);
+		Task task = taskService.updateTask(taskId, updateTaskRequest);
+		TaskDto taskDto = taskMapper.toDto(task);
+		return ResponseEntity.ok(taskDto);
 	}
 }
 

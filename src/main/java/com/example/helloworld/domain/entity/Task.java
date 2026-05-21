@@ -1,13 +1,6 @@
 package com.example.helloworld.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -21,8 +14,11 @@ public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_account_id", nullable = false)
+	private UserAccount userAccount;
 
 	@Column(name = "title", nullable = false)
 	private String title;
@@ -135,5 +131,9 @@ public class Task {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
+	}
+
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
 	}
 }

@@ -15,6 +15,7 @@ public class TaskMapperImpl implements TaskMapper {
 	@Override
 	public CreateTaskRequest fromDto(CreateTaskRequestDto dto) {
 		return new CreateTaskRequest(
+			dto.userAccountId(),
 			dto.title(),
 			dto.description(),
 			dto.dueDate()

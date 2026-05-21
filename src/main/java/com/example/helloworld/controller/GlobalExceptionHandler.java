@@ -2,6 +2,7 @@ package com.example.helloworld.controller;
 
 import com.example.helloworld.domain.dto.ErrorDto;
 import com.example.helloworld.exception.TaskNotFoundException;
+import com.example.helloworld.exception.UserAccountNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,14 @@ public class GlobalExceptionHandler {
 		ErrorDto errorDto = new ErrorDto(errorMessage);
 		return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
 	}
-}
 
+	@ExceptionHandler(UserAccountNotFoundException.class)
+	public ResponseEntity<ErrorDto> handleUserAccountNotFoundException(UserAccountNotFoundException ex) {
+		UUID userAccountNotFoundId = ex.getId();
+		String errorMessage = String.format("User account with id %s not found", userAccountNotFoundId);
+		ErrorDto errorDto = new ErrorDto(errorMessage);
+		return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+	}
+}
 
 

@@ -4,8 +4,11 @@ import com.example.helloworld.domain.CreateTaskRequest;
 import com.example.helloworld.domain.UpdateTaskRequest;
 import com.example.helloworld.domain.entity.Task;
 import com.example.helloworld.domain.entity.TaskStatus;
+import com.example.helloworld.domain.entity.UserAccount;
+import com.example.helloworld.exception.UserAccountNotFoundException;
 import com.example.helloworld.exception.TaskNotFoundException;
 import com.example.helloworld.repository.TaskRepository;
+import com.example.helloworld.repository.UserAccountRepository;
 import com.example.helloworld.service.TaskService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -18,14 +21,18 @@ import java.util.UUID;
 public class TaskServiceImpl implements TaskService {
 
 	private final TaskRepository taskRepository;
+	private final UserAccountRepository userAccountRepository;
 
-	public TaskServiceImpl(TaskRepository taskRepository) {
+	public TaskServiceImpl(TaskRepository taskRepository, UserAccountRepository userAccountRepository) {
 		this.taskRepository = taskRepository;
+		this.userAccountRepository = userAccountRepository;
 	}
 
 	@Override
 	public Task createTask(CreateTaskRequest request) {
 		Instant now = Instant.now();
+		UserAccount userAccount = userAccountRepository.findById(request.userAccountId())
+			.orElseThrow(() -> new UserAccountNotFoundException(request.userAccountId()));
 
 		Task task = new Task(
 				null,
@@ -36,6 +43,7 @@ public class TaskServiceImpl implements TaskService {
 				now,
 				now
 		);
+		task.setUserAccount(userAccount);
 
 		return taskRepository.save(task);
 	}

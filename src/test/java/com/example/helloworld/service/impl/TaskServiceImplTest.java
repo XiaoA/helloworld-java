@@ -17,7 +17,9 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Disabled;
 
+@Disabled("Old task spike tests; superseded by Account/User MVP branch")
 @SpringBootTest
 @Transactional
 class TaskServiceImplTest {

@@ -3,6 +3,7 @@ package com.example.helloworld.account;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -47,5 +48,15 @@ public class AccountService {
 	public void deleteAccount(UUID accountId) {
 		Account account = getAccount(accountId);
 		accountRepository.delete(account);
+	}
+
+	// Find All
+	public List<Account> findAll() {
+		return accountRepository.findAll();
+	}
+
+	// Find By Id
+	public Optional<Account> findById(UUID accountId) {
+		return accountRepository.findById(accountId);
 	}
 }

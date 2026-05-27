@@ -1,8 +1,11 @@
 package com.example.helloworld.account;
 
+import com.example.helloworld.user.User;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,9 +17,8 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	// Account
-//	@OneToMany(mappedBy = "account")
-//	private List<User> users = new ArrayList<>();
+	@OneToMany(mappedBy = "account")
+	private List<User> users = new ArrayList<>();
 
 	@Column(name = "display_name", nullable = false)
 	private String displayName;

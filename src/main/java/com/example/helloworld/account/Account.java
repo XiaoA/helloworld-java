@@ -31,6 +31,20 @@ public class Account {
 	@Column(name = "updated_at", nullable = false)
 	private Instant updatedAt;
 
+	@PrePersist
+	void prePersist() {
+		Instant now = Instant.now();
+		if (createdAt == null) {
+			createdAt = now;
+		}
+		updatedAt = now;
+	}
+
+	@PreUpdate
+	void preUpdate() {
+		updatedAt = Instant.now();
+	}
+
 	public UUID getId() {
 		return id;
 	}

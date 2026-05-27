@@ -1,49 +1,29 @@
-
-INSERT INTO user_accounts (id, display_name, email)
-VALUES (
-           '550e8400-e29b-41d4-a716-446655440000',
-           'Daniel-san',
-           'larusso@example.com'
-       );
-
-INSERT INTO tasks (
+INSERT INTO accounts (
     id,
-    user_account_id,
-    title,
-    description,
-    due_date,
-    status,
-    createdAt,
-    updatedAt
+    display_name,
+    account_type,
+    created_at,
+    updated_at
 )
 VALUES (
            '550e8400-e29b-41d4-a716-446655440001',
-           '550e8400-e29b-41d4-a716-446655440000',
-           'Wax car',
-           'Wax on, wax off. Breathe in, breathe out.',
-           '2026-08-01',
-       'OPEN',
-       CURRENT_TIMESTAMP,
-       CURRENT_TIMESTAMP
+           'Bruce Wayne',
+           'APPLICANT',
+           CURRENT_TIMESTAMP,
+           CURRENT_TIMESTAMP
        );
 
-INSERT INTO tasks (
+INSERT INTO accounts (
     id,
-    user_account_id,
-    title,
-    description,
-    due_date,
-    status,
-    createdAt,
-    updatedAt
+    display_name,
+    account_type,
+    created_at,
+    updated_at
 )
 VALUES (
-           '550e8400-e29b-41d4-a716-446655440981',
-           '550e8400-e29b-41d4-a716-446655440000',
-           'Paint the fence',
-           'Wrist up, wrist down',
-           '2026-08-02',
-       'OPEN',
-       CURRENT_TIMESTAMP,
-       CURRENT_TIMESTAMP
+           '550e8400-87e2-41d4-a716-446655440001',
+           'Sherlock Holmes',
+           'REGISTRANT',
+           CURRENT_TIMESTAMP,
+           CURRENT_TIMESTAMP
        );

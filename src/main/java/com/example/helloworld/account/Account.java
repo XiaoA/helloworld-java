@@ -10,14 +10,13 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
-
 public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@OneToMany(mappedBy = "account")
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> users = new ArrayList<>();
 
 	@Column(name = "display_name", nullable = false)
@@ -85,5 +84,21 @@ public class Account {
 
 	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void addUser(User user) {
+		users.add(user);
+		user.setAccount(this);
+	}
+
+	public void removeUser(User user) {
+		users.remove(user);
+		if (user.getAccount() == this) {
+			user.setAccount(null);
+		}
 	}
 }

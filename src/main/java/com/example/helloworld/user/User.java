@@ -6,18 +6,18 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "account_id")
+	@JoinColumn(name = "account_id", nullable = false)
 	private Account account;
 
-	@Column(name = "displayName", nullable = false)
+	@Column(name = "display_name", nullable = false)
 	private String displayName;
 
 	@Column(name = "email", nullable = false)
@@ -65,19 +65,5 @@ public class User {
 
 	public void setRole(UserRole role) {
 		this.role = role;
-	}
-
-	public void addAccount(Account account) {
-		this.account = account;
-	}
-
-	public boolean hasAccount() {
-		return account != null;
-	}
-
-	public void removeAccount(Account account) {
-		if (this.account == account) {
-			this.account = null;
-		}
 	}
 }

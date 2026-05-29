@@ -6,8 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record TaskDto(
-	UUID id,
-	String title,
+	UUID id, String title,
 	String description,
 	LocalDate dueDate,
 	TaskStatus status

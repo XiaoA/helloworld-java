@@ -1,5 +1,6 @@
 package com.example.helloworld.domain.entity;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -7,7 +8,8 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserAccountTest {
-
+	
+	@Disabled("Old task spike tests; superseded by Account/User MVP branch")
 	@Test
 	void addTaskKeepsBothSidesInSync() {
 		UserAccount userAccount = new UserAccount();

@@ -1,8 +1,7 @@
 package com.example.helloworld.controller;
 
-import com.example.helloworld.domain.dto.HelloWorldResponse;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.helloworld.model.dto.HelloWorldResponse;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController

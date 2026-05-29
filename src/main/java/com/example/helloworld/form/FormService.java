@@ -24,9 +24,9 @@ public class FormService {
 	public Form createForm(UUID accountId, CreateFormRequestDto request) {
 		Account account = getAccount(accountId);
 		Form form = new Form();
-		form.setAccount(account);
 		form.setFormType(request.formType());
 		form.setFormTitle(request.formTitle());
+		account.addForm(form);
 
 		return formRepository.save(form);
 	}

@@ -17,7 +17,7 @@ public class UserController {
 	}
 
 	@GetMapping
-	List<UserDto> getAllUsers(@PathVariable UUID accountId) {
+	public List<UserDto> getAllUsers(@PathVariable UUID accountId) {
 		return userService.listUsers(accountId)
 			.stream()
 			.map(this::toUserDto)
@@ -25,25 +25,25 @@ public class UserController {
 	}
 
 	@GetMapping("/{userId}")
-	UserDto getUserById(@PathVariable UUID accountId, @PathVariable UUID userId) {
+	public UserDto getUserById(@PathVariable UUID accountId, @PathVariable UUID userId) {
 		return toUserDto(userService.getUser(accountId, userId));
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	UserDto createUser(@PathVariable UUID accountId, @Valid @RequestBody CreateUserRequestDto request) {
+	public UserDto createUser(@PathVariable UUID accountId, @Valid @RequestBody CreateUserRequestDto request) {
 		return toUserDto(userService.createUser(accountId, request));
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping("/{userId}")
-	UserDto updateUser(@PathVariable UUID accountId, @PathVariable UUID userId, @Valid @RequestBody UpdateUserRequestDto request) {
+	public UserDto updateUser(@PathVariable UUID accountId, @PathVariable UUID userId, @Valid @RequestBody UpdateUserRequestDto request) {
 		return toUserDto(userService.updateUser(accountId, userId, request));
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{userId}")
-	void deleteUser(@PathVariable UUID accountId, @PathVariable UUID userId) {
+	public void deleteUser(@PathVariable UUID accountId, @PathVariable UUID userId) {
 		userService.deleteUser(accountId, userId);
 	}
 

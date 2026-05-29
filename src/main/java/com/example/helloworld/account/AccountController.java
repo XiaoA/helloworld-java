@@ -17,7 +17,7 @@ public class AccountController {
 	}
 
 	@GetMapping
-	List<AccountDto> getAllAccounts() {
+	public List<AccountDto> getAllAccounts() {
 		return accountService.findAll()
 			.stream()
 			.map(this::toAccountDto)
@@ -25,7 +25,7 @@ public class AccountController {
 	}
 
 	@GetMapping("/{accountId}")
-	AccountDto getAccountById(@PathVariable UUID accountId) {
+	public AccountDto getAccountById(@PathVariable UUID accountId) {
 		Account account = accountService.findById(accountId)
 			.orElseThrow(() -> new AccountNotFoundException(accountId));
 
@@ -34,19 +34,19 @@ public class AccountController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	AccountDto createAccount(@Valid @RequestBody CreateAccountRequest request) {
+	public AccountDto createAccount(@Valid @RequestBody CreateAccountRequest request) {
 		return toAccountDto(accountService.createAccount(request));
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping("/{accountId}")
-	AccountDto updateAccount(@PathVariable UUID accountId, @Valid @RequestBody UpdateAccountRequest request) {
+	public AccountDto updateAccount(@PathVariable UUID accountId, @Valid @RequestBody UpdateAccountRequest request) {
 		return toAccountDto(accountService.updateAccount(accountId, request));
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{accountId}")
-	void deleteAccount(@PathVariable UUID accountId) {
+	public void deleteAccount(@PathVariable UUID accountId) {
 		accountService.deleteAccount(accountId);
 	}
 

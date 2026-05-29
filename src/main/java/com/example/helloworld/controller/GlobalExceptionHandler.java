@@ -2,6 +2,7 @@ package com.example.helloworld.controller;
 
 import com.example.helloworld.domain.dto.ErrorDto;
 import com.example.helloworld.account.AccountNotFoundException;
+import com.example.helloworld.form.FormNotFoundException;
 import com.example.helloworld.exception.TaskNotFoundException;
 import com.example.helloworld.exception.UserAccountNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -49,5 +50,10 @@ public class GlobalExceptionHandler {
 		ErrorDto errorDto = new ErrorDto(ex.getMessage());
 		return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
 	}
-}
 
+	@ExceptionHandler(FormNotFoundException.class)
+	public ResponseEntity<ErrorDto> handleFormNotFoundException(FormNotFoundException ex) {
+		ErrorDto errorDto = new ErrorDto(ex.getMessage());
+		return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+	}
+}

@@ -1,10 +1,11 @@
 package com.example.helloworld.form;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateFormRequestDto(
 
-	@NotBlank(message = ERROR_MESSAGE_FORM_TYPE_REQUIRED)
+	@NotNull(message = ERROR_MESSAGE_FORM_TYPE_REQUIRED)
 	FormType formType,
 
 	@NotBlank(message = ERROR_MESSAGE_FORM_TITLE_REQUIRED)

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record FormDto(
 	UUID id,
-	String formType,
+	FormType formType,
 	String formTitle
 ) {
 }

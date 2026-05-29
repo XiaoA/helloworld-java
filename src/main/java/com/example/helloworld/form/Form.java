@@ -25,7 +25,7 @@ public class Form {
 	@Column(name = "form_title")
 	private String formTitle;
 
-	protected Form() {
+	public Form() {
 	}
 
 	public UUID getId() {

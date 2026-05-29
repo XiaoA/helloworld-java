@@ -1,5 +1,6 @@
 package com.example.helloworld.account;
 
+import com.example.helloworld.form.Form;
 import com.example.helloworld.user.User;
 import jakarta.persistence.*;
 
@@ -18,6 +19,9 @@ public class Account {
 
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> users = new ArrayList<>();
+
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Form> forms = new ArrayList<>();
 
 	@Column(name = "display_name", nullable = false)
 	private String displayName;
@@ -99,6 +103,22 @@ public class Account {
 		users.remove(user);
 		if (user.getAccount() == this) {
 			user.setAccount(null);
+		}
+	}
+
+	public void addForm(Form form) {
+		forms.add(form);
+		form.setAccount(this);
+	}
+
+	public List<Form> getForms() {
+		return forms;
+	}
+
+	public void removeForm(Form form) {
+		forms.remove(form);
+		if (form.getAccount() == this) {
+			form.setAccount(null);
 		}
 	}
 }

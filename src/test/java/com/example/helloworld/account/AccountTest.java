@@ -1,6 +1,9 @@
 package com.example.helloworld.account;
 
+import com.example.helloworld.form.Form;
+import com.example.helloworld.form.FormType;
 import com.example.helloworld.user.User;
+import com.example.helloworld.user.UserRole;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -10,37 +13,79 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AccountTest {
 
 	@Test
-	void addAccountKeepsAssociationInSync() {
+	void addUserKeepsAssociationInSync() {
+		Account account = new Account();
+		account.setId(UUID.randomUUID());
+		account.setDisplayName("Wayne Legal Group");
+		account.setAccountType(AccountType.REPRESENTATIVE);
+
 		User user = new User();
 		user.setId(UUID.randomUUID());
 		user.setDisplayName("Bruce Wayne");
 		user.setEmail("batman@example.com");
+		user.setRole(UserRole.REPRESENTATIVE);
 
-		Account account = new Account();
-		account.setId(UUID.randomUUID());
-		account.setAccountType(AccountType.valueOf("REPRESENTATIVE"));
+		account.addUser(user);
 
-		user.addAccount(account);
-
-		assertThat(user.hasAccount()).isTrue();
+		assertThat(account.getUsers()).contains(user);
 		assertThat(user.getAccount()).isSameAs(account);
 	}
 
 	@Test
-	void removeAccountClearsTheAssociation() {
+	void removeUserClearsTheAssociation() {
+		Account account = new Account();
+		account.setId(UUID.randomUUID());
+		account.setDisplayName("Wayne Legal Group");
+		account.setAccountType(AccountType.REPRESENTATIVE);
+
 		User user = new User();
 		user.setId(UUID.randomUUID());
 		user.setDisplayName("Bruce Wayne");
 		user.setEmail("batman@example.com");
+		user.setRole(UserRole.REPRESENTATIVE);
 
-		Account account = new Account();
-		account.setId(UUID.randomUUID());
-		account.setAccountType(AccountType.valueOf("REPRESENTATIVE"));
+		account.addUser(user);
+		account.removeUser(user);
 
-		user.addAccount(account);
-		user.removeAccount(account);
-
-		assertThat(user.hasAccount()).isFalse();
+		assertThat(account.getUsers()).doesNotContain(user);
 		assertThat(user.getAccount()).isNull();
 	}
+
+	@Test
+	void addFormKeepsAssociationInSync() {
+		Account account = new Account();
+		account.setId(UUID.randomUUID());
+		account.setDisplayName("Wayne Legal Group");
+		account.setAccountType(AccountType.REPRESENTATIVE);
+
+		Form form = new Form();
+		form.setId(UUID.randomUUID());
+		form.setFormTitle("Gotham City Formal Appeal");
+		form.setFormType(FormType.F1234);
+
+		account.addForm(form);
+
+		assertThat(form.getAccount()).isSameAs(account);
+		assertThat(account.getForms()).contains(form);
+	}
+
+	@Test
+	void removeFormClearsTheAssociation() {
+		Account account = new Account();
+		account.setId(UUID.randomUUID());
+		account.setDisplayName("Wayne Legal Group");
+		account.setAccountType(AccountType.REPRESENTATIVE);
+
+		Form form = new Form();
+		form.setId(UUID.randomUUID());
+		form.setFormTitle("Gotham City Formal Appeal");
+		form.setFormType(FormType.F1234);
+
+		account.addForm(form);
+		account.removeForm(form);
+
+		assertThat(account.getForms()).doesNotContain(form);
+		assertThat(form.getAccount()).isNull();
+	}
+
 }

@@ -18,8 +18,9 @@ public class Form {
 	@JoinColumn(name = "account_id", nullable = false)
 	private Account account;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "form_type")
-	private String formType;
+	private FormType formType;
 
 	@Column(name = "form_title")
 	private String formTitle;
@@ -43,11 +44,11 @@ public class Form {
 		this.account = account;
 	}
 
-	public String getFormType() {
+	public FormType getFormType() {
 		return formType;
 	}
 
-	public void setFormType(String formType) {
+	public void setFormType(FormType formType) {
 		this.formType = formType;
 	}
 

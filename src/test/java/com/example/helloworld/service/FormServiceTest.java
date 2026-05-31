@@ -81,11 +81,4 @@ class FormServiceTest {
 		assertThat(updatedForm.getFormType()).isEqualTo(FormType.F200);
 		assertThat(updatedForm.getFormTitle()).isEqualTo("Updated Gotham City Appeal");
 	}
-
-//	@Test
-//	void getFormReturnsForm() {
-//		UUID uuid = UUID.randomUUID();
-//		Form form = FormRepository.findById(uuid).orElseThrow();
-//		assertThat(form).isNotNull();
-//	}
 }

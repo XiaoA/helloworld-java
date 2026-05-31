@@ -52,6 +52,7 @@ public class UserService {
 
 	// Update User
 	public User updateUser(UUID accountId, UUID userId, UpdateUserRequestDto request) {
+		getAccount(accountId);
 		User user = getUser(accountId, userId);
 
 		user.setDisplayName(request.displayName());
@@ -63,8 +64,11 @@ public class UserService {
 
 	// Delete User
 	public void deleteUser(UUID accountId, UUID userId) {
+		Account account = getAccount(accountId);
 		User user = getUser(accountId, userId);
-		userRepository.delete(user);
+
+		account.removeUser(user);
+		accountRepository.save(account);
 	}
 
 	// Find All

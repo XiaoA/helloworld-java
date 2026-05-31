@@ -86,5 +86,4 @@ class AccountTest {
 		assertThat(account.getForms()).doesNotContain(form);
 		assertThat(form.getAccount()).isNull();
 	}
-
 }

@@ -3,6 +3,7 @@ package com.example.helloworld.model.entity;
 import com.example.helloworld.model.enums.FormType;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +26,25 @@ public class Form {
 	@Column(name = "form_title")
 	private String formTitle;
 
+	@Column(name = "created_at")
+	private Instant createdAt;
+
+	@Column(name = "updated_at")
+	private Instant updatedAt;
+
+	@PrePersist
+	void prePersist() {
+		Instant now = Instant.now();
+		if (createdAt == null) {
+			createdAt = now;
+		}
+		updatedAt = now;
+	}
+
+	@PreUpdate
+	void preUpdate() {
+		updatedAt = Instant.now();
+	}
 	public Form() {
 	}
 

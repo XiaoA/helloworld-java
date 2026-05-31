@@ -31,6 +31,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ErrorDto> handleUserNotFoundException(UserNotFoundException ex) {
+		ErrorDto errorDto = new ErrorDto(ex.getMessage());
+		return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+	}
+
 	@ExceptionHandler(FormNotFoundException.class)
 	public ResponseEntity<ErrorDto> handleFormNotFoundException(FormNotFoundException ex) {
 		ErrorDto errorDto = new ErrorDto(ex.getMessage());

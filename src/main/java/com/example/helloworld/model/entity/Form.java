@@ -4,6 +4,8 @@ import com.example.helloworld.model.enums.FormType;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +27,9 @@ public class Form {
 
 	@Column(name = "form_title")
 	private String formTitle;
+
+	@OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Addendum> addenda = new ArrayList<>();
 
 	@Column(name = "created_at")
 	private Instant createdAt;

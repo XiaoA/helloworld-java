@@ -16,24 +16,26 @@ public class AddendumService {
 	private final AddendumRepository addendumRepository;
 	private final FormRepository formRepository;
 
-	public AddendumService(AddendumRepository repository, FormRepository formRepository, AddendumRepository addendumRepository) {
+	public AddendumService(FormRepository formRepository, AddendumRepository addendumRepository) {
 		this.addendumRepository = addendumRepository;
 		this.formRepository = formRepository;
 	}
 
 	@Transactional
-	public Addendum CreateAddendum(UUID formId, CreateAddendumRequestDto request) {
+	public Addendum createAddendum(UUID formId, CreateAddendumRequestDto request) {
 		Form form = getForm(formId);
 		Addendum addendum = new Addendum();
 		addendum.setAddendumTitle(request.addendumTitle());
 		addendum.setAddendumText(request.addendumText());
 		addendum.setAddendumType(request.addendumType());
 
+		form.addAddendum(addendum);
+
 		return addendumRepository.save(addendum);
 	}
 
 	private Form getForm(UUID formId) {
-		return FormRepository.findById(formId)
+		return formRepository.findById(formId)
 			.orElseThrow(() -> new FormNotFoundException(formId));
 	}
 

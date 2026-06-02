@@ -13,6 +13,10 @@ public class Addendum {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "form_id", nullable = false)
+	private Form form;
+
 	@Column(name = "addendum_title", nullable = false)
 	private String addendumTitle;
 
@@ -22,7 +26,13 @@ public class Addendum {
 @Column(name = "addendum_text", nullable = false)
 private String addendumText;
 
+	public Form getForm() {
+		return form;
+	}
 
+	public void setForm(Form form) {
+		this.form = form;
+	}
 
 	public UUID getId() {
 		return id;

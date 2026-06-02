@@ -21,6 +21,9 @@ public class Form {
 	@JoinColumn(name = "account_id", nullable = false)
 	private Account account;
 
+	@OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Addendum> addendums = new ArrayList<>();
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "form_type")
 	private FormType formType;
@@ -83,5 +86,10 @@ public class Form {
 
 	public void setFormTitle(String formTitle) {
 		this.formTitle = formTitle;
+	}
+
+	public void addAddendum(Addendum addendum) {
+		addendums.add(addendum);
+		addendum.setForm(this);
 	}
 }

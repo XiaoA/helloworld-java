@@ -7,5 +7,4 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AddendumRepository extends JpaRepository<Addendum, UUID> {
-	Optional<Addendum> findByIdAndFormId(UUID addendumId, UUID formId);
 }

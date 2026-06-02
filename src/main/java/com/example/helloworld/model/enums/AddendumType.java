@@ -1,7 +1,7 @@
 package com.example.helloworld.model.enums;
 
 public enum AddendumType {
-	UpdateAddress,
-	UpdateMaritalStatus,
-	UpdateStatement
+	Update_Address,
+	Update_Marital_Status,
+	Update_Statement
 }

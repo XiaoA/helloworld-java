@@ -18,6 +18,7 @@ import java.util.UUID;
 public class AccountController {
 	private final AccountService accountService;
 
+	// Constructor injection
 	public AccountController(AccountService accountService) {
 		this.accountService = accountService;
 	}

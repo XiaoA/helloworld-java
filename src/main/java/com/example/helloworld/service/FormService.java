@@ -3,8 +3,8 @@ package com.example.helloworld.service;
 import com.example.helloworld.exception.FormNotFoundException;
 import com.example.helloworld.model.dto.CreateFormRequestDto;
 import com.example.helloworld.model.dto.UpdateFormRequestDto;
-import com.example.helloworld.model.entity.Account;
 import com.example.helloworld.exception.AccountNotFoundException;
+import com.example.helloworld.model.entity.Account;
 import com.example.helloworld.repository.AccountRepository;
 import com.example.helloworld.model.entity.Form;
 import com.example.helloworld.repository.FormRepository;
@@ -44,14 +44,15 @@ public class FormService {
 
 	// Get Form by ID
 	public Form getForm(UUID accountId, UUID formId) {
-		getAccount(accountId);
 		return formRepository.findByIdAndAccountId(formId, accountId)
 			.orElseThrow(() -> new FormNotFoundException(formId));
 	}
 
 	// Update Form
 	public Form updateForm(UUID accountId, UUID formId, UpdateFormRequestDto request) {
+		getAccount(accountId);
 		Form form = getForm(accountId, formId);
+
 		form.setFormType(request.formType());
 		form.setFormTitle(request.formTitle());
 

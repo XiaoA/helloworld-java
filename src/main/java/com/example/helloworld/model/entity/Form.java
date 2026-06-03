@@ -3,6 +3,9 @@ package com.example.helloworld.model.entity;
 import com.example.helloworld.model.enums.FormType;
 import jakarta.persistence.*;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +21,9 @@ public class Form {
 	@JoinColumn(name = "account_id", nullable = false)
 	private Account account;
 
+	@OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Addendum> addendums = new ArrayList<>();
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "form_type")
 	private FormType formType;
@@ -25,6 +31,28 @@ public class Form {
 	@Column(name = "form_title")
 	private String formTitle;
 
+	@OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Addendum> addenda = new ArrayList<>();
+
+	@Column(name = "created_at")
+	private Instant createdAt;
+
+	@Column(name = "updated_at")
+	private Instant updatedAt;
+
+	@PrePersist
+	void prePersist() {
+		Instant now = Instant.now();
+		if (createdAt == null) {
+			createdAt = now;
+		}
+		updatedAt = now;
+	}
+
+	@PreUpdate
+	void preUpdate() {
+		updatedAt = Instant.now();
+	}
 	public Form() {
 	}
 
@@ -58,5 +86,10 @@ public class Form {
 
 	public void setFormTitle(String formTitle) {
 		this.formTitle = formTitle;
+	}
+
+	public void addAddendum(Addendum addendum) {
+		addendums.add(addendum);
+		addendum.setForm(this);
 	}
 }

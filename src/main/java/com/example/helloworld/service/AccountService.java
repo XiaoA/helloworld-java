@@ -4,6 +4,7 @@ import com.example.helloworld.exception.AccountNotFoundException;
 import com.example.helloworld.model.dto.CreateAccountRequest;
 import com.example.helloworld.model.dto.UpdateAccountRequest;
 import com.example.helloworld.model.entity.Account;
+import com.example.helloworld.model.entity.User;
 import com.example.helloworld.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 

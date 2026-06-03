@@ -20,11 +20,15 @@ public class Addendum {
 	@Column(name = "addendum_title", nullable = false)
 	private String addendumTitle;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "addendum_type", nullable = false)
 	private AddendumType addendumType;
 
-@Column(name = "addendum_text", nullable = false)
-private String addendumText;
+	@Column(name = "addendum_text", nullable = false)
+	private String addendumText;
+
+	public Addendum() {
+	}
 
 	public Form getForm() {
 		return form;
@@ -63,5 +67,14 @@ private String addendumText;
 	}
 
 	public void setAddendumType(AddendumType addendumType) {
+		this.addendumType = addendumType;
+	}
+
+	public Addendum(UUID id, Form form, String addendumTitle, AddendumType addendumType, String addendumText) {
+		this.id = id;
+		this.form = form;
+		this.addendumTitle = addendumTitle;
+		this.addendumType = addendumType;
+		this.addendumText = addendumText;
 	}
 }

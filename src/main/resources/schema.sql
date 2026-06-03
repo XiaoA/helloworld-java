@@ -1,3 +1,4 @@
+drop table if exists addenda;
 drop table if exists forms;
 drop table if exists users;
 drop table if exists accounts;
@@ -25,4 +26,12 @@ create table if not exists forms (
                                      form_title text not null,
                                      created_at timestamp not null,
                                      updated_at timestamp not null
-)
+);
+
+create table if not exists addenda (
+                                      id uuid primary key,
+                                      form_id uuid not null references forms(id),
+                                      addendum_title text not null,
+                                      addendum_type text not null,
+                                      addendum_text text not null
+);

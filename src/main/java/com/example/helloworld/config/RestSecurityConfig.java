@@ -25,6 +25,7 @@ public class RestSecurityConfig {
 		// @formatter:off
 		http.authorizeHttpRequests((authz) -> authz
 				.requestMatchers(HttpMethod.GET, "/hello").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/v1/accounts", "/api/v1/accounts/**").hasAnyRole("USER", "ADMIN")
 				.requestMatchers(HttpMethod.PUT, "/api/v1/accounts/**").hasAnyRole("ADMIN")
 				.requestMatchers(HttpMethod.POST, "/api/v1/accounts/**").hasAnyRole("USER", "ADMIN")

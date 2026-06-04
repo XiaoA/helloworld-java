@@ -9,7 +9,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.mockito.Mockito.when;
@@ -29,6 +29,19 @@ class SecuritySmokeTest {
         mockMvc.perform(get("/hello"))
             .andExpect(status().isOk());
     }
+
+	@Test
+	void loginShouldBePublic() throws Exception {
+		mockMvc.perform(post("/api/v1/auth/login")
+				.contentType("application/json")
+				.content("""
+                    {
+                      "username": "user",
+                      "password": "user"
+                    }
+                    """))
+			.andExpect(status().isOk());
+	}
 
     @Test
     void accountsShouldRequireAuthentication() throws Exception {

@@ -60,7 +60,6 @@ public class RestSecurityConfig {
 		return configuration.getAuthenticationManager();
 	}
 
-	// This is for demo purposes; a real production application wouldn't use a hardcoded fallback value
 	@Bean
 	public SecretKey jwtSecretKey(@Value("${APP_JWT_SECRET}") String jwtSecret) {
 		if (jwtSecret == null || jwtSecret.isEmpty()) {

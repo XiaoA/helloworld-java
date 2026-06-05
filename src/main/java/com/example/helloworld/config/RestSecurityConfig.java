@@ -95,9 +95,8 @@ public class RestSecurityConfig {
 
 		UserDetails user = User.withUsername("user").password(passwordEncoder.encode("user")).roles("USER").build();
 		UserDetails admin = User.withUsername("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN").build();
-		UserDetails superadmin = User.withUsername("superadmin").password(passwordEncoder.encode("superadmin")).roles("USER", "ADMIN", "SUPERADMIN").build();
 
-		return new InMemoryUserDetailsManager(user, admin, superadmin);
+		return new InMemoryUserDetailsManager(user, admin);
 	}
 
 	@Bean

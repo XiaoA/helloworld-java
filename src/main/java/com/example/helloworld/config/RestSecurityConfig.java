@@ -60,16 +60,6 @@ public class RestSecurityConfig {
 		return configuration.getAuthenticationManager();
 	}
 
-//	@Bean
-//	public SecretKey jwtSecretKey(@Value("${app.jwt.secret:${APP_JWT_SECRET:}}") String jwtSecret) {
-//		if (jwtSecret == null || jwtSecret.isEmpty()) {
-//			throw new IllegalArgumentException("JWT secret is missing."
-//			);
-//		}
-//		byte[] keyBytes = Base64.getDecoder().decode(jwtSecret);
-//		return new SecretKeySpec(keyBytes, "HmacSHA256");
-//	}
-
 	@Bean
 	public SecretKey jwtSecretKey(@Value("${app.jwt.secret:${APP_JWT_SECRET:}}") String jwtSecret) {
 

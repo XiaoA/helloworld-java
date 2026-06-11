@@ -41,7 +41,7 @@ public class RestSecurityConfig {
 		http.authorizeHttpRequests((authz) -> authz
 				.requestMatchers(HttpMethod.GET, "/hello").permitAll()
 				.requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/v1/accounts", "/api/v1/accounts/**").hasAnyRole("USER", "ADMIN")
+				.requestMatchers(HttpMethod.GET, "/api/v1/accounts", "/api/v1/accounts/**", "/api/v1/auth/me").hasAnyRole("USER", "ADMIN")
 				.requestMatchers(HttpMethod.PUT, "/api/v1/accounts/**").hasAnyRole("ADMIN")
 				.requestMatchers(HttpMethod.POST, "/api/v1/accounts/**").hasAnyRole("USER", "ADMIN")
 			.requestMatchers(HttpMethod.DELETE, "/api/v1/accounts/**").hasAnyRole("ADMIN")
@@ -60,14 +60,44 @@ public class RestSecurityConfig {
 		return configuration.getAuthenticationManager();
 	}
 
+//	@Bean
+//	public SecretKey jwtSecretKey(@Value("${app.jwt.secret:${APP_JWT_SECRET:}}") String jwtSecret) {
+//		if (jwtSecret == null || jwtSecret.isEmpty()) {
+//			throw new IllegalArgumentException("JWT secret is missing."
+//			);
+//		}
+//		byte[] keyBytes = Base64.getDecoder().decode(jwtSecret);
+//		return new SecretKeySpec(keyBytes, "HmacSHA256");
+//	}
+
 	@Bean
-	public SecretKey jwtSecretKey(@Value("${APP_JWT_SECRET}") String jwtSecret) {
-		if (jwtSecret == null || jwtSecret.isEmpty()) {
-			throw new IllegalArgumentException("APP_JWT_SECRET must be provided");
+	public SecretKey jwtSecretKey(@Value("${app.jwt.secret:${APP_JWT_SECRET:}}") String jwtSecret) {
+
+		if (jwtSecret == null || jwtSecret.isBlank()) {
+			throw new IllegalStateException(
+				"JWT secret is missing. Set APP_JWT_SECRET to a Base64-encoded secret with at least 32 bytes."
+			);
 		}
-		byte[] keyBytes = Base64.getDecoder().decode(jwtSecret);
+
+		byte[] keyBytes;
+		try {
+			keyBytes = Base64.getDecoder().decode(jwtSecret);
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalStateException(
+				"JWT secret must be valid Base64. Generate one with: openssl rand -base64 32",
+				exception
+			);
+		}
+
+		if (keyBytes.length < 32) {
+			throw new IllegalStateException(
+				"JWT secret is too short for HS256. It must decode to at least 32 bytes. Generate one with: openssl rand -base64 32"
+			);
+		}
+
 		return new SecretKeySpec(keyBytes, "HmacSHA256");
 	}
+
 
 	@Bean
 	public JwtEncoder jwtEncoder(SecretKey jwtSecretKey) {

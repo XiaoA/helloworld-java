@@ -1,22 +1,23 @@
 package com.example.helloworld.controller;
 
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
 
-@SpringBootTest
+@SpringBootTest(properties = "app.jwt.secret=MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=")
 @AutoConfigureMockMvc
 class AuthControllerTest {
 	@Autowired
@@ -25,13 +26,8 @@ class AuthControllerTest {
 	@Test
 	void loginShouldReturnToken() throws Exception {
 		mockMvc.perform(post("/api/v1/auth/login")
-				.contentType("application/json")
-			.content("""
-					{
-					  "username": "user",
-					  "password": "user"
-					}
-					"""))
+				.contentType(APPLICATION_JSON)
+				.content(loginRequest("user", "user")))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.token").value(matchesPattern("^[^.]+\\.[^.]+\\.[^.]+$")));
 	}
@@ -39,13 +35,8 @@ class AuthControllerTest {
 	@Test
 	void loginShouldRejectBadCredentials() throws Exception {
 		mockMvc.perform(post("/api/v1/auth/login")
-				.contentType("application/json")
-				.content("""
-					{
-					  "username": "user",
-					  "password": "wrong-password"
-					}
-					"""))
+				.contentType(APPLICATION_JSON)
+				.content(loginRequest("user", "wrong-password")))
 			.andExpect(status().isUnauthorized());
 	}
 
@@ -56,27 +47,53 @@ class AuthControllerTest {
 		mockMvc.perform(get("/api/v1/accounts")
 				.header(AUTHORIZATION, "Bearer " + token))
 			.andExpect(status().isOk());
+
+		mockMvc.perform(get("/api/v1/accounts"))
+			.andExpect(status().isUnauthorized());
 	}
 
 	private String extractToken() throws Exception {
 		String response = mockMvc.perform(post("/api/v1/auth/login")
-				.contentType("application/json")
-				.content("""
-					{
-					  "username": "user",
-					  "password": "user"
-					}
-					"""))
+				.contentType(APPLICATION_JSON)
+				.content(loginRequest("user", "user")))
 			.andExpect(status().isOk())
 			.andReturn()
 			.getResponse()
 			.getContentAsString();
 
-		Matcher matcher = Pattern.compile("\"token\"\\s*:\\s*\"([^\"]+)\"").matcher(response);
-		if (!matcher.find()) {
+		String token = JsonPath.read(response, "$.token");
+		if (token == null || token.isBlank()) {
 			throw new IllegalStateException("Login response did not contain a token");
 		}
 
-		return matcher.group(1);
+		return token;
+	}
+
+	@Test
+	void meShouldReturnCurrentUserForBearerToken() throws Exception {
+		String token = extractToken();
+
+		mockMvc.perform(get("/api/v1/auth/me")
+				.header(AUTHORIZATION, "Bearer " + token))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.username").value("user"))
+			.andExpect(jsonPath("$.authorities").isArray())
+			.andExpect(jsonPath("$.authorities").value(hasItem("USER")))
+			.andExpect(jsonPath("$.authorities").value(not(hasItem("FACTOR_PASSWORD"))));
+	}
+
+	@Test
+	void meShouldRejectUnauthenticatedRequest() throws Exception {
+		mockMvc.perform(get("/api/v1/auth/me"))
+			.andExpect(status().isUnauthorized());
+	}
+
+	private static String loginRequest(String username, String password) {
+		return """
+			{
+			  "username": "%s",
+			  "password": "%s"
+			}
+			""".formatted(username, password);
 	}
 }

@@ -1,5 +1,6 @@
 package com.example.helloworld.controller;
 
+import com.example.helloworld.model.dto.CurrentUserResponse;
 import com.example.helloworld.model.dto.LoginRequest;
 import com.example.helloworld.model.dto.LoginResponse;
 import com.example.helloworld.service.JwtService;
@@ -7,10 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -34,4 +33,18 @@ public class AuthController {
 
 		return new LoginResponse(jwtService.generateToken(authentication));
 	}
+
+	@GetMapping("/me")
+	  public CurrentUserResponse me(Authentication authentication) {
+		  return new CurrentUserResponse(
+				  authentication.getName(),
+				  authentication.getAuthorities()
+					  .stream()
+					  .map(GrantedAuthority::getAuthority)
+					  .filter(authority -> authority.startsWith("ROLE_"))
+					  .filter(authority -> !authority.startsWith("ROLE_FACTOR_"))
+					  .map(authority -> authority.substring("ROLE_".length()))
+					  .toList()
+		  );
+	  }
 }
